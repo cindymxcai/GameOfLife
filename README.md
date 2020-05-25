@@ -27,11 +27,11 @@ The initial pattern constitutes the seed of the system. The first generation is 
 
 ## Task
 
-Your task is to impelment Conways Game of Life. You should be able to:
+Your task is to implement Conways Game of Life. You should be able to:
 
 * Visualize the game in the console
 * Be able to define how big the world/grid is (10x10, 50x80, etc.)
-* Be able to set the inital state of the world  
+* Be able to set the initial state of the world  
 
 ## References
 

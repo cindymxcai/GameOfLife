@@ -5,11 +5,12 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{C38B8FE5-DC13-444A-B7EA-1C627760A72D}</ProjectGuid>
-        <OutputType>Exe</OutputType>
+        <ProjectGuid>{52666F41-F089-4626-BCE7-3DB43D2AADCC}</ProjectGuid>
+        <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>GameOfLife</RootNamespace>
-        <AssemblyName>GameOfLife</AssemblyName>
+        <RootNamespace>GameOfLifeTest</RootNamespace>
+        <AssemblyName>GameOfLifeTest</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -22,7 +23,6 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <Prefer32bit>false</Prefer32bit>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +38,9 @@
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
+        <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+            <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+        </Reference>
         <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c">
           <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
           <Private>True</Private>
@@ -56,27 +59,22 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="CellStatus.cs" />
-        <Compile Include="CurrentGenGridMaker.cs" />
-        <Compile Include="Grid.cs" />
-        <Compile Include="InvalidInputException.cs" />
-        <Compile Include="IRowGetter.cs" />
-        <Compile Include="LineParser.cs" />
-        <Compile Include="Program.cs" />
+        <Compile Include="CurrentGenGridTest.cs" />
+        <Compile Include="RowGetterTests.cs" />
+        <Compile Include="LineParserTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="RowGetter.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\GameOfLifeTests\GameOfLifeTests.csproj">
-        <Project>{e2220082-bb1a-4145-ab93-e62d8891ae96}</Project>
-        <Name>GameOfLifeTests</Name>
-      </ProjectReference>
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
       <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\GameOfLife\GameOfLife.csproj">
+        <Project>{c38b8fe5-dc13-444a-b7ea-1c627760a72d}</Project>
+        <Name>GameOfLife</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
