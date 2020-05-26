@@ -1,47 +1,37 @@
-using System.Collections.Generic;
 
 namespace GameOfLife
 {
     public class Grid
     {
-        private readonly int _col;
+        public readonly int Col;
+        public readonly int Row;
         
-        private CellStatus[,] GameGrid { get; }
+        private Cell[,] GameGrid { get; }
 
 
         public Grid(int row, int col)
         {
-            _col = col;
+            Row = row;
+            Col = col;
             
-            GameGrid = new CellStatus[row, col];
+            GameGrid = new Cell[row, col];
             for (var r = 0; r < row; r++)
             {
                 for (var c = 0; c < col; c++)
                 {
-                    GameGrid[r, c] = CellStatus.Dead;
+                    GameGrid[r, c] = new Cell(false);
                 }
             }
         }
 
-        public void SetRow(int currentRow, IEnumerable<CellStatus> gridRow)
+        public void SetCell(int currentRow, int currentCol, Cell cell)
         {
-            var index = 0;
-            foreach (var cell in gridRow)
-            {
-                GameGrid[currentRow, index] = cell;
-                index++;
-            }        
+            GameGrid[currentRow, currentCol] = cell;
         }
         
-        public List<CellStatus> GetRow(int rowNumberToGet)
-        {
-            var row = new List<CellStatus>();
-            for (var currentCol = 0; currentCol < _col; currentCol++)
-            {
-                row.Add(GameGrid[rowNumberToGet, currentCol]);
-            }
-
-            return row;
+        public Cell GetCell(int rowNumberToGet, int colNumberToGet)
+        { 
+            return GameGrid[rowNumberToGet, colNumberToGet];
         }
     }
 }

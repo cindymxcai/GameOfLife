@@ -9,15 +9,17 @@ namespace GameOfLifeTest
         public void ShouldMakeGridWithInputData()
         {
             var rowGetter = new RowGetter(new[] {"15", "...*."});
-            var grid = CurrentGenGridMaker.MakeGrid(rowGetter);
-            Assert.Equal(CellStatus.Alive, grid.GetRow(0)[3]);
+            var currentGen = new CurrentGenGridMaker();
+            currentGen.MakeGrid(rowGetter);
+            Assert.True(currentGen.CurrentGrid.GetCell(0, 3).IsAlive);
         }
         
         [Fact]
         public void ShouldShouldThrowExceptionIfZeroInput()
         {
             var rowGetter = new RowGetter(new[] {"00"});
-            Assert.Throws<InvalidInputException>(() => CurrentGenGridMaker.MakeGrid(rowGetter));
+            var currentGen = new CurrentGenGridMaker();
+            Assert.Throws<InvalidInputException>(() => currentGen.MakeGrid(rowGetter));
         }
     }
 }

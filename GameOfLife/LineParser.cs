@@ -18,19 +18,19 @@ namespace GameOfLife
             }
         }
 
-        public static List<CellStatus> GetGridRow(string input)
+        public static List<Cell> GetGridRow(string input)
         {
-            var cellList = new List<CellStatus>();
+            var cellList = new List<Cell>();
             
             foreach (var cell in input)
             {
                 switch (cell)
                 {
                     case '*':
-                        cellList.Add(CellStatus.Alive);
+                        cellList.Add(new Cell(true));
                         break;
                     case '.':
-                        cellList.Add(CellStatus.Dead);
+                        cellList.Add(new Cell(false));
                         break;
                 }
             }

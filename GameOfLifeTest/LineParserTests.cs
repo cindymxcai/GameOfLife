@@ -30,13 +30,13 @@ namespace GameOfLifeTest
             }
 
             [Theory]
-            [InlineData("*..", CellStatus.Alive, CellStatus.Dead)]
-            public void GetFieldFromString(string input, CellStatus live, CellStatus dead)
+            [InlineData("*..")]
+            public void GetFieldFromString(string input)
             {
                 var row = LineParser.GetGridRow(input);
-                Assert.Equal(live, row[0]);
-                Assert.Equal(dead, row[1]);
-                Assert.Equal(dead, row[2]);
+                Assert.True(row[0].IsAlive);
+                Assert.False(row[1].IsAlive);
+                Assert.False(row[2].IsAlive);
             }
     }
 }
