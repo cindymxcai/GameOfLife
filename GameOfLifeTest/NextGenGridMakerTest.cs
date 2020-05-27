@@ -11,8 +11,7 @@ namespace GameOfLifeTest
         {
             var currentGen = new CurrentGenGridMaker();
             currentGen.MakeGrid(new LineReader(new []{"2,2", "*.", ".."}));
-            var filter  = new CellFilter(currentGen.CurrentGrid);
-            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
+            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
             Assert.Equal(currentGen.CurrentGrid.Col,nextGen.NextGenGrid.Col);
             Assert.Equal(currentGen.CurrentGrid.Row,nextGen.NextGenGrid.Row);
         }
@@ -58,9 +57,8 @@ namespace GameOfLifeTest
         {
             var currentGen = new CurrentGenGridMaker();
             currentGen.MakeGrid(new LineReader(input));
-            var filter  = new CellFilter(currentGen.CurrentGrid);
-            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
-            var neighbouringCells = CellFilter.FindNeighbouringCells(1, 1, 3, 3 );
+            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
+            var neighbouringCells = CellFilter.FindNeighbouringCells(1, 1, 3, 3);
             var liveCells = CellFilter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
             Assert.Equal( isAlive,NextGenGridMaker.WillBeAlive(nextGen.NextGenGrid.GetCell(1,1).IsAlive,liveCells));
         }
@@ -82,8 +80,7 @@ namespace GameOfLifeTest
         {
             var currentGen = new CurrentGenGridMaker();
             currentGen.MakeGrid(new LineReader(new []{"3,3", "...", "***", "..."}));
-            var filter  = new CellFilter(currentGen.CurrentGrid);
-            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
+            var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
             nextGen.GetNewGeneration(currentGen.CurrentGrid);
             Assert.True(nextGen.NextGenGrid.GetCell(0,1).IsAlive);
             Assert.True(nextGen.NextGenGrid.GetCell(1,1).IsAlive);

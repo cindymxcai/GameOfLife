@@ -2,9 +2,9 @@ using System;
 
 namespace GameOfLife
 {
-    public class Simulator
+    public static class Simulator
     {
-        public static void GetConfiguration()
+        public static void ConfigureSimulation()
         {
             while (true)
             {
@@ -15,7 +15,7 @@ namespace GameOfLife
                 Console.WriteLine("5. Random");
 
                 var random = new Random();
-                
+
                 const string chars = ".*";
                 var configuration = Console.ReadLine();
 
@@ -25,20 +25,40 @@ namespace GameOfLife
                         SimulateGame(new[] {"5,5", ".....", ".....", ".***.", ".....", "....."});
                         break;
                     case "2":
-                        SimulateGame(new[] {"17,17", "..................", "..................", "....***...***....", ".................", "..*....*.*....*..", "..*....*.*....*..", "..*....*.*....*..", "....***...***....", ".................", "....***...***....", "..*....*.*....*..", "..*....*.*....*..", "..*....*.*....*..", ".................", "....***...***....", ".................", ".................."});
+                        SimulateGame(new[]
+                        {
+                            "17,17", "..................", "..................", "....***...***....",
+                            ".................", "..*....*.*....*..", "..*....*.*....*..", "..*....*.*....*..",
+                            "....***...***....", ".................", "....***...***....", "..*....*.*....*..",
+                            "..*....*.*....*..", "..*....*.*....*..", ".................", "....***...***....",
+                            ".................", ".................."
+                        });
                         break;
                     case "3":
                         SimulateGame(new[] {"6,6", "......", "......", "..***.", ".***..", "......", "......"});
                         break;
                     case "4":
-                        SimulateGame(new[] {"5,5", ".....", ".*...", "..**.", ".**..", "....."});
+                        SimulateGame(new[]
+                        {
+                            "10,10", "..........", ".*........", "..**......", ".**.......", "..........", "..........",
+                            "..........", "..........", "..........", ".........."
+                        });
                         break;
                     case "5":
-                        SimulateGame(new []{"6,6", $"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}", $"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}",$"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}",$"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}",$"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}",$"{chars[random.Next(0, chars.Length )]}, {chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]},{chars[random.Next(0, chars.Length )]}", });
+                        SimulateGame(new[]
+                        {
+                            "6,6",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
+                        });
                         break;
+                    default:
+                        continue;
                 }
-                GetConfiguration();   
-                break;
             }
         }
 
@@ -51,13 +71,13 @@ namespace GameOfLife
             
             while (Console.ReadLine() == "n")
             {
-                var filter = new CellFilter(currentGen.CurrentGrid);
-                var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
+                var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
                 nextGen.GetNewGeneration(currentGen.CurrentGrid);
                 Display.Grid(nextGen.NextGenGrid);
                 currentGen.CurrentGrid = nextGen.NextGenGrid;
             }
-            GetConfiguration();
+            
+            ConfigureSimulation();
         }
     }
 }

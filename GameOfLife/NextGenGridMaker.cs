@@ -2,12 +2,10 @@ namespace GameOfLife
 {
     public class NextGenGridMaker
     {
-        private readonly CellFilter _cellFilter;
         public  Grid NextGenGrid { get; }
 
-        public NextGenGridMaker(Grid currentGenGrid, CellFilter cellFilter)
+        public NextGenGridMaker(Grid currentGenGrid)
         {
-            _cellFilter = cellFilter;
             NextGenGrid = new Grid(currentGenGrid.Row, currentGenGrid.Col);
         }
 

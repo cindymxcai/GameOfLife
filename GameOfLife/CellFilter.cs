@@ -4,12 +4,6 @@ namespace GameOfLife
 {
     public class CellFilter
     {
-        private static Grid _currentGenGrid;
-
-        public CellFilter(Grid currentGenGrid)
-        {
-            _currentGenGrid = currentGenGrid;
-        }
         public static IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol, int maxRow, int maxCol)
         {
             var neighbouringCells = new List<(int, int)>();
@@ -17,32 +11,8 @@ namespace GameOfLife
             {
                 for (var col = currentCol - 1; col <= currentCol + 1; col++)
                 {
-                    var tempRow = row;
-                    var tempCol = col;
-                    if (row < 0 || row >= maxRow)
-                    {
-                        if (row < 0)
-                        {
-                            tempRow = maxRow - 1;
-                        }
-                        else if (row >= maxRow)
-                        {
-                            tempRow = 0;
-                        }
-                    }
-
-                    if (col < 0 || col >= maxCol)
-                    {
-                        if (col < 0)
-                        {
-                            tempCol = maxCol - 1;
-                        }
-                        else if (col >= maxCol)
-                        {
-                            tempCol = 0;
-                        }
-                    }
-
+                    var (tempRow, tempCol) = HandleWrapGrid(row, col, maxRow, maxCol);
+                    
                     if ((row, col) != (currentRow, currentCol))
                     {
                         neighbouringCells.Add((tempRow, tempCol));
@@ -51,8 +21,41 @@ namespace GameOfLife
             }
             return neighbouringCells;
         }
-         
+
         
+        private static (int, int) HandleWrapGrid(int row, int col, int maxRow, int maxCol)
+        {
+            var tempRow = row;
+            var tempCol = col;
+            
+            if (row < 0 || row >= maxRow)
+            {
+                if (row < 0)
+                {
+                    tempRow = maxRow-1;
+                }
+                else if (row >= maxRow)
+                {
+                    tempRow = 0;
+                }
+            }
+
+            if (col < 0 || col >= maxCol)
+            {
+                if (col < 0)
+                {
+                    tempCol = maxCol - 1;
+                }
+                else if (col >= maxCol)
+                {
+                    tempCol = 0;
+                }
+            }
+
+            return (tempRow, tempCol);
+        }
+
+
         public static int GetSurroundingLiveCells(Grid currentGenGrid, IEnumerable<(int, int)> inBoundCells)
         {
             var counter = 0;
