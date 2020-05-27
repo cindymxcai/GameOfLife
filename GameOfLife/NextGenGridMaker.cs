@@ -3,50 +3,35 @@ namespace GameOfLife
     public class NextGenGridMaker
     {
         private readonly CellFilter _cellFilter;
-        public  Grid NewGrid { get; }
+        public  Grid NextGenGrid { get; }
 
-        public NextGenGridMaker(Grid oldGeneration, CellFilter cellFilter)
+        public NextGenGridMaker(Grid currentGenGrid, CellFilter cellFilter)
         {
             _cellFilter = cellFilter;
-            NewGrid = new Grid(oldGeneration.Row, oldGeneration.Col);
+            NextGenGrid = new Grid(currentGenGrid.Row, currentGenGrid.Col);
         }
 
-        public void GetNewGeneration(Grid oldGeneration)
+        public void GetNewGeneration(Grid currentGenGrid)
         {
-            
-            for (var r = 0; r < NewGrid.Row; r++)
+            for (var r = 0; r < NextGenGrid.Row; r++)
             {
-                for (var c = 0; c < NewGrid.Col; c++)
+                for (var c = 0; c < NextGenGrid.Col; c++)
                 {
-                    var validCells = _cellFilter.FindNeighbouringCells(r, c);
-                    var surroundingLiveCells = _cellFilter.GetSurroundingLiveCells(oldGeneration, validCells);
-                    var isAlive = TurnAlive(oldGeneration.GetCell(r, c).IsAlive, surroundingLiveCells);
-                    NewGrid.GetCell(r, c).WillBeAlive = isAlive;
-                }
-            }
-            UpdateGrid();
-        }
-
-        public bool TurnAlive(bool wasAlive, int surroundingLiveCells)
-        {
-            if (wasAlive && surroundingLiveCells<2) return false;               
-            if (wasAlive && surroundingLiveCells==2) return true;
-            if (wasAlive && surroundingLiveCells == 3) return true;
-            if (wasAlive && surroundingLiveCells>3) return false;            
-            if (!wasAlive && surroundingLiveCells == 3) return true;
-            return false;
-        }        
-
-        private void UpdateGrid()
-        {
-            for (var r = 0; r < NewGrid.Row; r++)
-            {
-                for (var c = 0; c < NewGrid.Col; c++)
-                {
-                    NewGrid.SetCell(r, c, new Cell( NewGrid.GetCell(r,c).WillBeAlive));
+                    var neighbouringCells = CellFilter.FindNeighbouringCells(r, c);
+                    var surroundingLiveCells = CellFilter.GetSurroundingLiveCells(currentGenGrid, neighbouringCells);
+                    
+                    var willBeAlive = WillBeAlive(currentGenGrid.GetCell(r, c).IsAlive, surroundingLiveCells);
+                    
+                    NextGenGrid.SetCell(r,c, new Cell(willBeAlive));
                 }
             }
         }
-        
+
+        public static bool WillBeAlive(bool wasAlive, int surroundingLiveCells)
+        {
+            if (wasAlive && surroundingLiveCells<2 || wasAlive && surroundingLiveCells > 3) return false;               
+            if (wasAlive && surroundingLiveCells==2 || wasAlive && surroundingLiveCells == 3) return true;
+            return !wasAlive && surroundingLiveCells == 3;
+        }
     }
 }

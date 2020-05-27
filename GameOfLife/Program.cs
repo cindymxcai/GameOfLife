@@ -5,7 +5,7 @@
         public static void Main(string[] args)
         {
             var simulator = new Simulator();
-            simulator.SimulateGame();
+            Simulator.GetConfiguration();
         }
     }
 }

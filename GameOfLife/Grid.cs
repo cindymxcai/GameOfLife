@@ -8,7 +8,6 @@ namespace GameOfLife
         
         private Cell[,] GameGrid { get; }
 
-
         public Grid(int row, int col)
         {
             Row = row;

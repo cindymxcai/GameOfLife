@@ -4,20 +4,20 @@ namespace GameOfLife
 {
     public class CellFilter
     {
-        private static Grid _oldGrid;
+        private static Grid _currentGenGrid;
 
-        public CellFilter(Grid oldGrid)
+        public CellFilter(Grid currentGenGrid)
         {
-            _oldGrid = oldGrid;
+            _currentGenGrid = currentGenGrid;
         }
-        public IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol)
+        public static IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol)
         {
             var inBoundCells = new List<(int, int)>();
             for (var i = currentRow - 1; i <= currentRow + 1; i++)
             {
                 for (var j = currentCol - 1; j <= currentCol + 1; j++)
                 {
-                    if (i < 0 || i >= _oldGrid.Row || j < 0 || j >= _oldGrid.Col)
+                    if (i < 0 || i >= _currentGenGrid.Row || j < 0 || j >= _currentGenGrid.Col)
                     {
                     }
                     else if ((i, j) != (currentRow, currentCol))
@@ -30,12 +30,12 @@ namespace GameOfLife
         }
          
         
-        public int GetSurroundingLiveCells(Grid oldGeneration,IEnumerable<(int, int)> inBoundCells)
+        public static int GetSurroundingLiveCells(Grid currentGenGrid,IEnumerable<(int, int)> inBoundCells)
         {
             var counter = 0;
             foreach (var (x, y) in inBoundCells)
             {
-                if (oldGeneration.GetCell(x,y).IsAlive)
+                if (currentGenGrid.GetCell(x,y).IsAlive)
                 {
                     counter++;
                 }

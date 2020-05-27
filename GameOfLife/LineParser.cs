@@ -8,8 +8,9 @@ namespace GameOfLife
         {
             try
             {
-                var x = int.Parse(input.Substring(0, 1));
-                var y = int.Parse(input.Substring(1, 1));
+                var size = input.Split(',');
+                var x = int.Parse(size[0]);
+                var y = int.Parse(size[1]);
                 return (x, y);
             }
             catch

@@ -9,7 +9,7 @@ namespace GameOfLifeTest
         [Fact]
         public void ShouldReturnLinesInOrder()
         {
-            var rowGetter = new RowGetter(new []{"22", "**", ".."} );
+            var rowGetter = new LineReader(new []{"22", "**", ".."} );
             Assert.Equal("22", rowGetter.GetNextLine());
             Assert.Equal("**", rowGetter.GetNextLine());
             Assert.Equal("..", rowGetter.GetNextLine());
@@ -19,7 +19,7 @@ namespace GameOfLifeTest
         [Fact]
         public void ShouldThrowExceptionIfOutOfLines()
         {
-            var rowGetter = new RowGetter(new []{"00"} );
+            var rowGetter = new LineReader(new []{"00"} );
             var line = rowGetter.GetNextLine();
             Assert.Equal("00", line);
             Assert.Throws<IndexOutOfRangeException>(() => rowGetter.GetNextLine());
@@ -28,7 +28,7 @@ namespace GameOfLifeTest
         [Fact]
         public void ShouldThrowArgumentExceptionIfPassedNull()
         {
-            Assert.Throws<ArgumentException>(()=> new RowGetter( null));
+            Assert.Throws<ArgumentException>(()=> new LineReader( null));
         }
     }
 }

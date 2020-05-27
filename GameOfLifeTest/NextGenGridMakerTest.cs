@@ -10,11 +10,11 @@ namespace GameOfLifeTest
         public void NewGenerationGridShouldBeSizeOfOldGeneration()
         {
             var currentGen = new CurrentGenGridMaker();
-            currentGen.MakeGrid(new RowGetter(new []{"22", "*.", ".."}));
+            currentGen.MakeGrid(new LineReader(new []{"22", "*.", ".."}));
             var filter  = new CellFilter(currentGen.CurrentGrid);
             var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
-            Assert.Equal(currentGen.CurrentGrid.Col,nextGen.NewGrid.Col);
-            Assert.Equal(currentGen.CurrentGrid.Row,nextGen.NewGrid.Row);
+            Assert.Equal(currentGen.CurrentGrid.Col,nextGen.NextGenGrid.Col);
+            Assert.Equal(currentGen.CurrentGrid.Row,nextGen.NextGenGrid.Row);
         }
 
         [Theory]
@@ -22,9 +22,9 @@ namespace GameOfLifeTest
         public void SurroundingValidCellsFoundCorrectly(List<(int,int)> expectedListOfValidCells, int currentRow, int currentCol)
         {
             var currentGen = new CurrentGenGridMaker();
-            currentGen.MakeGrid(new RowGetter(new []{"33", "*..", ".*.", "..."}));
+            currentGen.MakeGrid(new LineReader(new []{"33", "*..", ".*.", "..."}));
             var filter  = new CellFilter(currentGen.CurrentGrid);
-            Assert.Equal(expectedListOfValidCells, filter.FindNeighbouringCells(currentRow, currentCol) );
+            Assert.Equal(expectedListOfValidCells, CellFilter.FindNeighbouringCells(currentRow, currentCol) );
         }
 
         public static IEnumerable<object[]> ListData()
@@ -41,16 +41,16 @@ namespace GameOfLifeTest
         public void ShouldGetNumberOfLiveSurroundingCellGivenCurrentCell()
         {
             var currentGen = new CurrentGenGridMaker();
-            currentGen.MakeGrid(new RowGetter(new []{"22", "*.", ".."}));
+            currentGen.MakeGrid(new LineReader(new []{"22", "*.", ".."}));
             var filter  = new CellFilter(currentGen.CurrentGrid);
-            var neighbouringCells = filter.FindNeighbouringCells(0, 1);
-            var liveCells = filter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
+            var neighbouringCells = CellFilter.FindNeighbouringCells(0, 1);
+            var liveCells = CellFilter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
             Assert.Equal(1,liveCells);
             
-            currentGen.MakeGrid(new RowGetter(new []{"44", "*...", "...*", "**..", "****"}));
+            currentGen.MakeGrid(new LineReader(new []{"44", "*...", "...*", "**..", "****"}));
             filter  = new CellFilter(currentGen.CurrentGrid);
-            neighbouringCells = filter.FindNeighbouringCells(2, 1);
-            liveCells = filter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
+            neighbouringCells = CellFilter.FindNeighbouringCells(2, 1);
+            liveCells = CellFilter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
             Assert.Equal(4,liveCells);
         }
 
@@ -59,12 +59,12 @@ namespace GameOfLifeTest
         public void ShouldReturnIfAliveFromSurroundingLiveCells(string [] input, bool isAlive)
         {
             var currentGen = new CurrentGenGridMaker();
-            currentGen.MakeGrid(new RowGetter(input));
+            currentGen.MakeGrid(new LineReader(input));
             var filter  = new CellFilter(currentGen.CurrentGrid);
             var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
-            var neighbouringCells = filter.FindNeighbouringCells(1, 1);
-            var liveCells = filter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
-            Assert.Equal( isAlive,nextGen.TurnAlive(nextGen.NewGrid.GetCell(1,1).WillBeAlive,liveCells));
+            var neighbouringCells = CellFilter.FindNeighbouringCells(1, 1);
+            var liveCells = CellFilter.GetSurroundingLiveCells(currentGen.CurrentGrid, neighbouringCells);
+            Assert.Equal( isAlive,NextGenGridMaker.WillBeAlive(nextGen.NextGenGrid.GetCell(1,1).IsAlive,liveCells));
         }
         
         public static IEnumerable<object[]> LiveCellData()
@@ -83,16 +83,16 @@ namespace GameOfLifeTest
         public void NewGenerationIsAsExpected()
         {
             var currentGen = new CurrentGenGridMaker();
-            currentGen.MakeGrid(new RowGetter(new []{"33", "...", "***", "..."}));
+            currentGen.MakeGrid(new LineReader(new []{"33", "...", "***", "..."}));
             var filter  = new CellFilter(currentGen.CurrentGrid);
             var nextGen = new NextGenGridMaker(currentGen.CurrentGrid, filter);
             nextGen.GetNewGeneration(currentGen.CurrentGrid);
             var deadCells = 0;
-            for (var r = 0; r < nextGen.NewGrid.Row; r++)
+            for (var r = 0; r < nextGen.NextGenGrid.Row; r++)
             {
-                for (var c = 0; c < nextGen.NewGrid.Col; c++)
+                for (var c = 0; c < nextGen.NextGenGrid.Col; c++)
                 {
-                    if (!nextGen.NewGrid.GetCell(r, c).IsAlive)
+                    if (!nextGen.NextGenGrid.GetCell(r, c).IsAlive)
                     {
                         deadCells++;
                     }
@@ -100,9 +100,9 @@ namespace GameOfLifeTest
             }
             
             Assert.Equal(6, deadCells);
-            Assert.True(nextGen.NewGrid.GetCell(0,1).IsAlive);
-            Assert.True(nextGen.NewGrid.GetCell(1,1).IsAlive);
-            Assert.True(nextGen.NewGrid.GetCell(2,1).IsAlive);
+            Assert.True(nextGen.NextGenGrid.GetCell(0,1).IsAlive);
+            Assert.True(nextGen.NextGenGrid.GetCell(1,1).IsAlive);
+            Assert.True(nextGen.NextGenGrid.GetCell(2,1).IsAlive);
         }
         
     }

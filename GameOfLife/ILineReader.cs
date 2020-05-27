@@ -1,6 +1,6 @@
 namespace GameOfLife
 {
-    public interface IRowGetter
+    public interface ILineReader
     {
         string GetNextLine();
     }
