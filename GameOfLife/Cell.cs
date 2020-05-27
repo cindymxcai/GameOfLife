@@ -11,7 +11,7 @@ namespace GameOfLife
 
         public  override string ToString()
         {
-            return !IsAlive ? "--" : "██";
+            return !IsAlive ? "▭▭" : "██";
         }
     }
 }

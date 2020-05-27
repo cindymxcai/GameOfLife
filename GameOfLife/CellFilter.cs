@@ -10,27 +10,50 @@ namespace GameOfLife
         {
             _currentGenGrid = currentGenGrid;
         }
-        public static IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol)
+        public static IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol, int maxRow, int maxCol)
         {
-            var inBoundCells = new List<(int, int)>();
-            for (var i = currentRow - 1; i <= currentRow + 1; i++)
+            var neighbouringCells = new List<(int, int)>();
+            for (var row = currentRow -1; row <= currentRow + 1; row++)
             {
-                for (var j = currentCol - 1; j <= currentCol + 1; j++)
+                for (var col = currentCol - 1; col <= currentCol + 1; col++)
                 {
-                    if (i < 0 || i >= _currentGenGrid.Row || j < 0 || j >= _currentGenGrid.Col)
+                    var tempRow = row;
+                    var tempCol = col;
+                    if (row < 0 || row >= maxRow)
                     {
+                        if (row < 0)
+                        {
+                            tempRow = maxRow - 1;
+                        }
+                        else if (row >= maxRow)
+                        {
+                            tempRow = 0;
+                        }
                     }
-                    else if ((i, j) != (currentRow, currentCol))
+
+                    if (col < 0 || col >= maxCol)
                     {
-                        inBoundCells.Add((i, j));
+                        if (col < 0)
+                        {
+                            tempCol = maxCol - 1;
+                        }
+                        else if (col >= maxCol)
+                        {
+                            tempCol = 0;
+                        }
+                    }
+
+                    if ((row, col) != (currentRow, currentCol))
+                    {
+                        neighbouringCells.Add((tempRow, tempCol));
                     }
                 }
             }
-            return inBoundCells;
+            return neighbouringCells;
         }
          
         
-        public static int GetSurroundingLiveCells(Grid currentGenGrid,IEnumerable<(int, int)> inBoundCells)
+        public static int GetSurroundingLiveCells(Grid currentGenGrid, IEnumerable<(int, int)> inBoundCells)
         {
             var counter = 0;
             foreach (var (x, y) in inBoundCells)

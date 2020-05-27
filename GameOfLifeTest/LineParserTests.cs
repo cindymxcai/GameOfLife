@@ -5,9 +5,9 @@ namespace GameOfLifeTest
     public class Tests
     {
         [Theory]
-            [InlineData("33", 3, 3)]
-            [InlineData("35", 3, 5)]
-            [InlineData("18", 1, 8)]
+            [InlineData("3,3", 3, 3)]
+            [InlineData("3,5", 3, 5)]
+            [InlineData("1,8", 1, 8)]
             public void GivenStringInputShouldGetXAndY(string input, int expectedX, int expectedY)
             {
                 var (x, y) = LineParser.GetSize(input);

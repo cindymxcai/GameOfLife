@@ -17,7 +17,7 @@ namespace GameOfLife
             {
                 for (var c = 0; c < NextGenGrid.Col; c++)
                 {
-                    var neighbouringCells = CellFilter.FindNeighbouringCells(r, c);
+                    var neighbouringCells = CellFilter.FindNeighbouringCells(r, c, currentGenGrid.Row, currentGenGrid.Col);
                     var surroundingLiveCells = CellFilter.GetSurroundingLiveCells(currentGenGrid, neighbouringCells);
                     
                     var willBeAlive = WillBeAlive(currentGenGrid.GetCell(r, c).IsAlive, surroundingLiveCells);
