@@ -13,12 +13,9 @@ namespace GameOfLife
                 Console.WriteLine("3. Toad");
                 Console.WriteLine("4. Glider");
                 Console.WriteLine("5. Random");
-
                 var random = new Random();
-
                 const string chars = ".*";
                 var configuration = Console.ReadLine();
-
                 switch (configuration)
                 {
                     case "1":
@@ -40,8 +37,8 @@ namespace GameOfLife
                     case "4":
                         SimulateGame(new[]
                         {
-                            "10,10", "..........", ".*........", "..**......", ".**.......", "..........", "..........",
-                            "..........", "..........", "..........", ".........."
+                            "10,10", "..........", ".*........", "..**......", ".**.......", "..........",
+                            "..........", "..........", "..........", "..........", ".........."
                         });
                         break;
                     case "5":
@@ -56,28 +53,28 @@ namespace GameOfLife
                             $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
                         });
                         break;
-                    default:
-                        continue;
+                    default: continue;
                 }
             }
         }
 
-        private static void SimulateGame(string [] configuration)
+        private static void SimulateGame(string[] configuration)
         {
             var lineReader = new LineReader(configuration);
             var currentGen = new CurrentGenGridMaker();
             currentGen.MakeGrid(lineReader);
             Display.Grid(currentGen.CurrentGrid);
-            
-            while (Console.ReadLine() == "n")
+            do
             {
-                var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
-                nextGen.GetNewGeneration(currentGen.CurrentGrid);
-                Display.Grid(nextGen.NextGenGrid);
-                currentGen.CurrentGrid = nextGen.NextGenGrid;
-            }
-            
-            ConfigureSimulation();
+                while (!Console.KeyAvailable)
+                {
+                    var nextGen = new NextGenGridMaker(currentGen.CurrentGrid);
+                    nextGen.GetNewGeneration(currentGen.CurrentGrid);
+                    Display.Grid(nextGen.NextGenGrid);
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    currentGen.CurrentGrid = nextGen.NextGenGrid;
+                }
+            } while (Console.ReadKey(true).Key != ConsoleKey.N);
         }
     }
 }
