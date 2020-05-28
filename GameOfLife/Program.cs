@@ -12,7 +12,7 @@ namespace GameOfLife
             Console.WriteLine("Choose a configuration number to start");
             Console.WriteLine("then press n at any time to generate new configuration");
             Console.ResetColor();
-            Simulator.ConfigureSimulation();
+            Simulator.RunSimulationLoop();
         }
     }
 }

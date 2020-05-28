@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace GameOfLife
 {
-    public class CellFilter
+    public static class CellFilter
     {
         public static IEnumerable<(int, int)> FindNeighbouringCells(int currentRow, int currentCol, int maxRow, int maxCol)
         {

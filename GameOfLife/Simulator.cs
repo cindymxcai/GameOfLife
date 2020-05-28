@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace GameOfLife
 {
     public static class Simulator
     {
-        public static void ConfigureSimulation()
+        public static void RunSimulationLoop()
         {
             while (true)
             {
@@ -16,6 +18,8 @@ namespace GameOfLife
                 var random = new Random();
                 const string chars = ".*";
                 var configuration = Console.ReadLine();
+                
+                
                 switch (configuration)
                 {
                     case "1":
@@ -42,16 +46,17 @@ namespace GameOfLife
                         });
                         break;
                     case "5":
-                        SimulateGame(new[]
+                        var randomConfiguration = new List<string> {"6,6"};
+                        for (var j = 0; j < randomConfiguration[0][0]; j++)
                         {
-                            "6,6",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                            $"{chars[random.Next(0, chars.Length)]}, {chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]},{chars[random.Next(0, chars.Length)]}",
-                        });
+                            var stringList = new StringBuilder();
+                            for (var i = 0; i < randomConfiguration[0][1]; i++)
+                            {
+                                stringList.Append(chars[random.Next(0, chars.Length)]);
+                            }
+                            randomConfiguration.Add(stringList.ToString());
+                        }
+                        SimulateGame(randomConfiguration.ToArray()); 
                         break;
                     default: continue;
                 }
